@@ -10,7 +10,7 @@ output: html_document
 <p>Some observations we made were that states that are larger tended to have more hospitals/medical resources available to them as the populous states have higher number of citizens seeking medical attention.
 
 <p>**Table**</p>
-```{r echo = FALSE, message = FALSE, warning = FALSE}
+```
 hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)
 
 summary <- hc %>% 
@@ -20,13 +20,60 @@ summary <- hc %>%
             hospitals = sum(hosp_cnt, na.rm = T),
             medical_groups = sum(grp_cnt, na.rm = T),
             discharge = sum(sys_dsch, na.rm = T))
+
+<p>This table summarizes the different measures of medical resources (number of hospital beds, medics, hospitals, medical groups, and discharge) available in each state. The summarized values show the total number of each resources in each state. The table is sorted in alphabetical order of states
 ```
 
-The aggregate table summarizes the different 
-
-<p>**Pie Chart**</p>
+<p>**Bar Chart**</p>
 ```
+# load packages 
+library(tidyverse)
 
+# import tables
+hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv")
+dg <- read.csv("https://www2.census.gov/programs-surveys/popest/tables/2010-2019/state/asrh/sc-est2019-alldata5.csv")
+
+# convert state names to state abbreviations
+dg <- dg %>% 
+  mutate(state = state.abb[match(NAME, state.name)])
+
+# sum of medics by state
+sum_total_mds <- hc %>%
+  group_by(health_sys_state) %>%
+  summarize(sum_total_mds = sum(total_mds, na.rm = T)) %>% 
+  rename(state = health_sys_state)
+
+# population by state
+state_pop_2018 <- dg %>% 
+  group_by(state) %>% 
+  summarize(pop = sum(POPESTIMATE2018, na.rm = T))
+
+# join sum_total_mds and state_pop_2018
+# and calculating ratio of medics to population
+mds_and_pop <- left_join(sum_total_mds, state_pop_2018) %>% 
+  mutate(ratio = sum_total_mds/pop)
+
+# state with min ratio
+min_ratio_state <- mds_and_pop %>% 
+  filter(ratio == min(ratio, na.rm = T)) %>% 
+  pull(state)
+
+# state with min ratio demographics
+min_ratio_state_dg <- dg %>% 
+  group_by(state, RACE) %>% 
+  summarize(pop = sum(POPESTIMATE2018, na.rm = T)) %>% 
+  filter(state == min_ratio_state)
+
+# graph of state weith min ratio demographics
+ggplot(min_ratio_state_dg, aes(x="", y=pop, fill=as.factor(RACE)))+
+  geom_bar(width = 1, stat = "identity") +
+  xlab("") +
+  ylab("Population") +
+  ggtitle(paste("Demographics of", min_ratio_state)) +
+  labs(fill = "Race") +
+  scale_fill_discrete(labels=c("White", "Black", "American Indian", "Asian", "Pacific Islander"))
+
+<p>This bar chart shows the race demographics of the state with the lowest ratio of medics to population. This chart was intended to show the relationship between the number of medics and the racial demogrpahics in the state. This chart reveals that there is a sizeable minority population in the state that has the lowest ratio of medics to population.
 ```
 
 <p>**Map**: Number of MD in each state</p>
