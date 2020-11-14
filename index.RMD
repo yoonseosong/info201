@@ -15,10 +15,28 @@ output: html_document
 
 ```
 
-<p>**Map**</p>
+<p>**Map**: Number of MD in each state</p>
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+library(dplyr)
+library(usmap)
+library(ggplot2)
+
+#Import Tables
+hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)
+
+# sum of medics by state
+sum_total_mds <- hc %>%
+  group_by(health_sys_state) %>%
+  summarize(sum_total_mds = sum(total_mds)) %>% 
+  mutate(fips = fips(health_sys_state))
+
+plot_usmap(regions = "states", data = sum_total_mds, values = "sum_total_mds", color = "blue") + 
+  scale_fill_continuous(
+    low = "white", high = "blue", name = "number of mds", label = scales::comma
+  ) + theme(legend.position = "right")
 ```
 
-```
+This chart is a density map of the U.S. states shaded by the number of physicians in health systems in each state. States that are shaded with a lighter color have fewer physicians and states that are shaded with a darker blue have more physicians. The chart was intended to visualize how access to healthcare resources (e.g. physicians) varies in different states and across different regions. From this chart, we see that California has the most number of physicians, followed by Northeastern states, such as New York and Pennsylvania. On the other hand, the mountain states, including Wyoming, Nevada, and Idaho, do not have many physicians.
 
 <p>**Scatter Plot**</p>
 ```
