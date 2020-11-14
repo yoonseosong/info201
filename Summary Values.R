@@ -49,5 +49,4 @@ min_total_mds <- hc %>%
 # sum of medics by state
 sum_total_mds <- hc %>%
   group_by(health_sys_state) %>%
-  summarize(sum_total_mds = sum(total_mds))  %>%
-
+  summarize(sum_total_mds = sum(total_mds))
