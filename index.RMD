@@ -1,0 +1,5 @@
+---
+title: "Racial Health Disparities in the USA"
+output: html_document
+---
+The domain of the project focuses on disparities in demographics in relation to healthcare in America. By analyzing data sets on health care resources and racial demographics by state we can observe the correlation between minority groups and their access to healthcare. This project proposal aims to seek resources that most affect racial groups to find better solutions to healthcare across the US.
