@@ -1,4 +1,5 @@
-# load packages
+# download / load packages
+# install.packages("usmap")
 library(dplyr)
 library(usmap)
 library(ggplot2)
