@@ -39,7 +39,7 @@ get_col_info <- function(col_name, hc) {
 
 
 # returns list of information for each column (column name)
-# values are the summary information returned by `get_col_info()
+# values are the summary information returned by get_col_info()
 
 get_summary_info <- function(hc) {
   hc_colnames <- as.list(colnames(hc))
@@ -67,7 +67,7 @@ min_sys_beds <- hc %>%
 
 # state with most medics
 health_sys_state_max_mds <- hc %>%
-  group_by(healthy_sys_state) %>%
+  group_by(health_sys_state) %>%
   summarize(total = sum(total_mds)) %>%
   filter(total == max(total)) %>%
   pull(health_sys_state)
@@ -75,11 +75,15 @@ health_sys_state_max_mds <- hc %>%
 # most medics
 max_total_mds <- hc %>%
   filter(total_mds == max(total_mds)) %>%
-  pull(health_sys_state)
+  pull(health_sys_city)
 
 # least medics
 min_total_mds <- hc %>%
   filter(total_mds == min(total_mds)) %>%
-  pull(health_sys_state)
+  pull(health_sys_city)
 
-
+# sum of medics by state
+sum_total_mds <- hc
+  group_by(health_sys_state)
+  filter(sum_total_mds == sum(total_mds)) 
+  pull(sum_total_mds)
