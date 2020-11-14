@@ -1,7 +1,7 @@
 #Calculations of Summary Information
 
 #Import Tables
-hc <- read.csv("chsp-compendium-2018.csv", stringsAsFactors = FALSE)
+hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)
 
 
 #column names
