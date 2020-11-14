@@ -12,7 +12,7 @@ nrow(hc)
 ncol(hc)
 
 #summary function
-summary(ks)
+summary(hc)
 
 ##Beds
 ##Physicians
@@ -25,7 +25,7 @@ summary(ks)
 # mean`: the mean value of the column
 
 get_col_info <- function(col_name, hc) {
-  distinctive_values <- (n_distinct(ks, hc[[col_name]], na.rm = TRUE))
+  distinctive_values <- (n_distinct(hc, hc[[col_name]], na.rm = TRUE))
   set_unique <- (unique(select(hc, col_name)))
   if (typeof(hc[[col_name]]) == "double") {
     val <- list(
