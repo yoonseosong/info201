@@ -3,20 +3,6 @@
 #Import Tables
 hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)
 
-
-#column names
-#number of rows
-#number of columns
-colnames(hc)
-nrow(hc)
-ncol(hc)
-
-#summary function
-summary(hc)
-
-#get sum info
-hc_summary <- get_summary_info(hc)
-
 ##Calculated Values
 
 # maximum beds (state)
