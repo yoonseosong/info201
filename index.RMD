@@ -39,6 +39,29 @@ plot_usmap(regions = "states", data = sum_total_mds, values = "sum_total_mds", c
 This chart is a density map of the U.S. states shaded by the number of physicians in health systems in each state. States that are shaded with a lighter color have fewer physicians and states that are shaded with a darker blue have more physicians. The chart was intended to visualize how access to healthcare resources (e.g. physicians) varies in different states and across different regions. From this chart, we see that California has the most number of physicians, followed by Northeastern states, such as New York and Pennsylvania. On the other hand, the mountain states, including Wyoming, Nevada, and Idaho, do not have many physicians.
 
 <p>**Scatter Plot**</p>
-```
-```
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+# Import Tables
+hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)
 
+# sum of beds by state
+sum_total_beds <- hc %>%
+  group_by(health_sys_state) %>%
+  summarize(sum_total_beds = sum(sys_beds)) %>% 
+  rename(state = health_sys_state)
+
+# sum of discharges by state
+sum_total_dsch <- hc %>%
+  group_by(health_sys_state) %>%
+  summarize(sum_total_dsch = sum(sys_dsch)) %>% 
+  rename(state = health_sys_state)
+
+# join data frames
+join_beds_dsch <- left_join(sum_total_beds, sum_total_dsch)
+
+# scatterplot of proportion of minorities to health care resources
+ggplot(data= join_beds_dsch) +
+  geom_point(mapping = aes(
+    x = sum_total_dsch , y = sum_total_beds, col = state
+  )) 
+```
+<p>This scatter plot indicates the correlation between the total number of hospital beds to the total number of discharges by state. This evaluates patterns and the number of beds in each state and shows that higher level of bed capacity directly relates to higher number of patient discharges. Grouping each category by state also shows what each state's average bed capacity to discharge rates as well.</p>
