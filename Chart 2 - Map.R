@@ -1,3 +1,5 @@
+# load packages
+library(dplyr)
 library(usmap)
 library(ggplot2)
 
