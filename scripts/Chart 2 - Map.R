@@ -14,7 +14,7 @@ sum_total_mds <- hc %>%
   mutate(fips = fips(health_sys_state))
 
 # create map
-plot_usmap(regions = "states", data = sum_total_mds, values = "sum_total_mds", color = "blue") + 
+mds_map <- plot_usmap(regions = "states", data = sum_total_mds, values = "sum_total_mds", color = "black") + 
   scale_fill_continuous(
     low = "white", high = "blue", name = "number of MDs", label = scales::comma
   ) + theme(legend.position = "right") +
