@@ -2,126 +2,44 @@
 title: "Racial Health Disparities in the USA"
 output: html_document
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(dplyr)
+```
+
 **Intro**
 <p>The domain of the project focuses on disparities in demographics in relation to healthcare in America. By analyzing data sets on health care resources and racial demographics by state we can observe the correlation between minority groups and their access to healthcare. This project proposal aims to seek resources that most affect racial groups to find better solutions to healthcare across the US. </p>
+
 <p>**Summary**</p>
 <p>With the functions, we were able to calculate values to find out that the state with most medics was California, and the city with most medics was Oakland, California, while the city with the least medics was in Northfield, Minnesota, the maximum number of beds were in Tennesee, while the state with the least number was in Wyoming.</p>
   
 <p>Some observations we made were that states that are larger tended to have more hospitals/medical resources available to them as the populous states have higher number of citizens seeking medical attention.</p>
 
 <p>**Table**</p>
-```{r echo = FALSE, message = FALSE, warning = FALSE}
-library(dplyr)
-
-hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)
-
-hc %>% 
-  group_by(health_sys_state) %>% 
-  summarize(beds = sum(sys_beds, na.rm = T),
-            medics = sum(total_mds, na.rm = T),
-            hospitals = sum(hosp_cnt, na.rm = T),
-            medical_groups = sum(grp_cnt, na.rm = T),
-            discharge = sum(sys_dsch, na.rm = T))
+```{r}
+source("scripts/Aggregate Table.R")
+summary
 ```
 <p>This table summarizes the different measures of medical resources (number of hospital beds, medics, hospitals, medical groups, and discharge) available in each state. The summarized values show the total number of each resources in each state. The table is sorted in alphabetical order of states.</p>
 
 <p>**Bar Chart**</p>
-```{r echo = FALSE, message = FALSE, warning = FALSE}
-# load packages 
-library(tidyverse)
-
-# import tables
-hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv")
-dg <- read.csv("https://www2.census.gov/programs-surveys/popest/tables/2010-2019/state/asrh/sc-est2019-alldata5.csv")
-
-# convert state names to state abbreviations
-dg <- dg %>% 
-  mutate(state = state.abb[match(NAME, state.name)])
-
-# sum of medics by state
-sum_total_mds <- hc %>%
-  group_by(health_sys_state) %>%
-  summarize(sum_total_mds = sum(total_mds, na.rm = T)) %>% 
-  rename(state = health_sys_state)
-
-# population by state
-state_pop_2018 <- dg %>% 
-  group_by(state) %>% 
-  summarize(pop = sum(POPESTIMATE2018, na.rm = T))
-
-# join sum_total_mds and state_pop_2018
-# and calculating ratio of medics to population
-mds_and_pop <- left_join(sum_total_mds, state_pop_2018) %>% 
-  mutate(ratio = sum_total_mds/pop)
-
-# state with min ratio
-min_ratio_state <- mds_and_pop %>% 
-  filter(ratio == min(ratio, na.rm = T)) %>% 
-  pull(state)
-
-# state with min ratio demographics
-min_ratio_state_dg <- dg %>% 
-  group_by(state, RACE) %>% 
-  summarize(pop = sum(POPESTIMATE2018, na.rm = T)) %>% 
-  filter(state == min_ratio_state)
-
-# graph of state weith min ratio demographics
-ggplot(min_ratio_state_dg, aes(x="", y=pop, fill=as.factor(RACE)))+
-  geom_bar(width = 1, stat = "identity") +
-  xlab("") +
-  ylab("Population") +
-  ggtitle(paste("Demographics of", min_ratio_state)) +
-  labs(fill = "Race") +
-  scale_fill_discrete(labels=c("White", "Black", "American Indian", "Asian", "Pacific Islander"))
+```{r}
+source("scripts/Chart 1 - Bar chart.R")
+min_ratio_state_plot
 ```
 <p>This bar chart shows the race demographics of the state with the lowest ratio of medics to population. This chart was intended to show the relationship between the number of medics and the racial demogrpahics in the state. This chart reveals that there is a sizeable minority population in the state that has the lowest ratio of medics to population.</p>
 
 <p>**Map**: Number of MD in each state</p>
-```{r echo = FALSE, message = FALSE, warning = FALSE}
-library(dplyr)
-library(usmap)
-library(ggplot2)
-
-#Import Tables
-hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)
-
-# sum of medics by state
-sum_total_mds <- hc %>%
-  group_by(health_sys_state) %>%
-  summarize(sum_total_mds = sum(total_mds)) %>% 
-  mutate(fips = fips(health_sys_state))
-
-plot_usmap(regions = "states", data = sum_total_mds, values = "sum_total_mds", color = "blue") + 
-  scale_fill_continuous(
-    low = "white", high = "blue", name = "number of mds", label = scales::comma
-  ) + theme(legend.position = "right")
+```{r}
+source("scripts/Chart 2 - Map.R")
+mds_map
 ```
 <p>This chart is a density map of the U.S. states shaded by the number of physicians in health systems in each state. States that are shaded with a lighter color have fewer physicians and states that are shaded with a darker blue have more physicians. The chart was intended to visualize how access to healthcare resources (e.g. physicians) varies in different states and across different regions. From this chart, we see that California has the most number of physicians, followed by Northeastern states, such as New York and Pennsylvania. On the other hand, the mountain states, including Wyoming, Nevada, and Idaho, do not have many physicians.</p>
 
 <p>**Scatter Plot**</p>
-```{r echo = FALSE, message = FALSE, warning = FALSE}
-# Import Tables
-hc <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)
-
-# sum of beds by state
-sum_total_beds <- hc %>%
-  group_by(health_sys_state) %>%
-  summarize(sum_total_beds = sum(sys_beds)) %>% 
-  rename(state = health_sys_state)
-
-# sum of discharges by state
-sum_total_dsch <- hc %>%
-  group_by(health_sys_state) %>%
-  summarize(sum_total_dsch = sum(sys_dsch)) %>% 
-  rename(state = health_sys_state)
-
-# join data frames
-join_beds_dsch <- left_join(sum_total_beds, sum_total_dsch)
-
-# scatterplot of proportion of minorities to health care resources
-ggplot(data= join_beds_dsch) +
-  geom_point(mapping = aes(
-    x = sum_total_dsch , y = sum_total_beds, col = state
-  )) 
+```{r}
+source("scripts/Chart 3- Scatter plot.R")
+prop_of_minorities
 ```
 <p>This scatter plot indicates the correlation between the total number of hospital beds to the total number of discharges by state. This evaluates patterns and the number of beds in each state and shows that higher level of bed capacity directly relates to higher number of patient discharges. Grouping each category by state also shows what each state's average bed capacity to discharge rates as well.</p>
