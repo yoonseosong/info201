@@ -37,10 +37,10 @@ min_ratio_state_dg <- dg %>%
   filter(state == min_ratio_state)
 
 # graph of state weith min ratio demographics
-min_ratio_state_plot <- ggplot(min_ratio_state_dg, aes(x="", y=pop, fill=as.factor(RACE)))+
-  geom_bar(width = 1, stat = "identity") +
-  xlab("") +
-  ylab("Population") +
+min_ratio_state_plot <- ggplot(min_ratio_state_dg, aes(x=RACE, y=pop/1000, fill=as.factor(RACE)))+
+  geom_bar(stat = "identity") +
+  xlab("Race") +
+  ylab("Population (in thousands)") +
   ggtitle(paste("Demographics of", min_ratio_state)) +
   labs(fill = "Race") +
   scale_fill_discrete(labels=c("White", "Black", "American Indian", "Asian", "Pacific Islander"))
