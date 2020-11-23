@@ -23,7 +23,7 @@ join_beds_dsch <- left_join(sum_total_beds, sum_total_dsch)
 # scatterplot of proportion of minorities to health care resources
 prop_of_minorities <- ggplot(data= join_beds_dsch) +
   geom_point(mapping = aes(
-    x = sum_total_dsch , y = sum_total_beds, col = state
-  )) 
+    x = sum_total_dsch/1000 , y = sum_total_beds, col = state)) +
+  labs(x= "Total discharges (by thousands)", y= "Total Beds", title = "Trends of Beds to Discharges")
 
 
