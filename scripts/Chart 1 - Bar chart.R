@@ -34,15 +34,21 @@ min_ratio_state <- mds_and_pop %>%
 min_ratio_state_dg <- dg %>% 
   group_by(state, RACE) %>% 
   summarize(pop = sum(POPESTIMATE2018, na.rm = T)) %>% 
-  filter(state == min_ratio_state)
+  filter(state == min_ratio_state) %>% 
+  mutate(RACE = toString(RACE))
+
+min_ratio_state_dg[1,2] <- "White"
+min_ratio_state_dg[2,2] <- "Black"
+min_ratio_state_dg[3,2] <- "American Indian"
+min_ratio_state_dg[4,2] <- "Asian"
+min_ratio_state_dg[5,2] <- "Pacific Islander"
 
 # graph of state weith min ratio demographics
-min_ratio_state_plot <- ggplot(min_ratio_state_dg, aes(x=RACE, y=pop/1000, fill=as.factor(RACE)))+
+min_ratio_state_plot <- ggplot(min_ratio_state_dg, aes(x=reorder(RACE, pop), y=pop/1000))+
   geom_bar(stat = "identity") +
   xlab("Race") +
   ylab("Population (in thousands)") +
   ggtitle(paste("Demographics of", min_ratio_state)) +
-  labs(fill = "Race") +
-  scale_fill_discrete(labels=c("White", "Black", "American Indian", "Asian", "Pacific Islander"))
+  coord_flip()
  
   
