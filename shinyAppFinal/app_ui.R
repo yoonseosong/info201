@@ -10,7 +10,6 @@ page_one <- tabPanel(
   "Introduction",
   titlePanel("Growing Health Disparities in the U.S."),
   mainPanel(
-    
     #image
     p(img("", src= "disparities.jpg", height = 315, width = 600)),
     
@@ -28,7 +27,8 @@ page_one <- tabPanel(
             to different resources?"),
     tags$li("How do these trends differ between states and resources?"),
     tags$li("What are important proportion to look at when evaluating common issues
-            with the healthcaresystem?"),
+            with the health care system?"),
+    p(" "),
     p("To answer these key questions we focused our research specifically on
       the black and white populations as well as specific resources that we feel
       are the most crucial to the healthcare system such as medics, beds, and 
@@ -38,7 +38,7 @@ page_one <- tabPanel(
     # Future projections
     p(h3("Looking Towards the Future")),
     
-    p(img("", src= "covid.jpg", height = 200, width = 345)),
+    p(img("", src= "covid.jpg", height = 333.33, width = 575)),
     
     p("Looking towards the future we're interested in seeing how the results of 
       this data research project might change as new data on the effects of COVID-19
@@ -46,8 +46,8 @@ page_one <- tabPanel(
       of the U.S and how systemic racism continues to impact the lives of many. The goal
       of this project is to not only seek trends in data but to also seek solutions
       to combat the growing health disparities in America." )
-    
-  ))
+  )
+)
 
 # Interactive page- 1
 
@@ -84,7 +84,7 @@ page_five <- tabPanel(
     mainPanel(
       
       # img
-      p(img("", src= "health.jpg", height = 426, width = 512)),
+      p(img("", src= "healthcare.png", height = 240, width = 800)),
       
       ## Key take away 1
       p(h3("Significant Resource Gap")),
@@ -103,9 +103,8 @@ page_five <- tabPanel(
       
       # Paragraph
       p("vv")
-      
-      
-    ))
+  )
+)
 
 
 # ui server
