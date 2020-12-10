@@ -53,7 +53,26 @@ page_one <- tabPanel(
 
 
 # Interactive page- 2
-
+# resource variable
+page_three <- tabPanel(
+  "Map",
+  titlePanel("Number of Resources in Each State"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        inputId = "resource",
+        label = "Choose a resource",
+        choices = c("Physicians", "Primary care physicians", "Medical groups", 
+                    "Hospitals", "Non-Federal general acute care hospitals", 
+                    "Multistate system", "Beds", "Discharges", "Interns and residents"),
+        selected = "Number of physicians"
+      )
+    ),
+    mainPanel(
+      plotOutput("map")
+    )
+  )
+)
 
 # Interactive page- 3
 
@@ -94,5 +113,6 @@ ui <- fluidPage(
   navbarPage(
     "Health Disparities",
     page_one,
+    page_three,
     page_five
   ))
