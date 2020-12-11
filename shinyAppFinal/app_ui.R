@@ -78,9 +78,14 @@ page_three <- tabPanel(
 # Interactive page- 3
 page_four <- tabPanel(
   "Racial Demographics",
-  titlePanel("Resources and Racial Demographics in Each State"),
+  titlePanel("Racial Demographics in Each State"),
   mainPanel(
-    
+    selectInput(
+      inputId = "state",
+      label = "Choose a State",
+      choices = state.name
+    ),
+    plotlyOutput("pie")
   )
 )
 
@@ -121,5 +126,6 @@ ui <- fluidPage(
     "Health Disparities",
     page_one,
     page_three,
+    page_four,
     page_five
   ))

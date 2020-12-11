@@ -12,26 +12,6 @@ dat <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendiu
 state_dat <- read.csv("https://www2.census.gov/programs-surveys/popest/tables/2010-2019/state/asrh/sc-est2019-alldata5.csv",
                       stringsAsFactors = FALSE)
 
-# convert state names to state abbreviations
-state_dat <- state_dat %>% 
-  mutate(state = state.abb[match(NAME, state.name)])
-
-# sum of medics by state
-sum_total_mds <- dat %>%
-  group_by(health_sys_state) %>%
-  summarize(sum_total_mds = sum(total_mds, na.rm = T)) %>% 
-  rename(state = health_sys_state)
-
-# population by state
-state_pop_2018 <- state_dat %>% 
-  group_by(state) %>% 
-  summarize(pop = sum(POPESTIMATE2018, na.rm = T))
-
-# join sum_total_mds and state_pop_2018
-# and calculating ratio of medics to population
-mds_and_pop <- left_join(sum_total_mds, state_pop_2018) %>% 
-  mutate(ratio = sum_total_mds/pop)
-
 #server
 server <- function(input, output){
   output$map <- renderPlot({
@@ -86,9 +66,27 @@ server <- function(input, output){
     resource_map
   })
   
-  output$bar_graph <- renderPlotly({
-    plot <- ggplot(data = mds_and_pop) +
-      geom_bar(x = state, y = ratio) +
-      co0rd_flip()
+  output$pie <- renderPlotly({
+    
+    state_dat_selected <- state_dat %>% 
+      group_by(NAME, RACE) %>% 
+      summarize(pop = sum(POPESTIMATE2018, na.rm = T)) %>% 
+      filter(NAME == input$state) %>% 
+      mutate(RACE = toString(RACE))
+    
+    state_dat_selected[1,2] <- "White"
+    state_dat_selected[2,2] <- "Black"
+    state_dat_selected[3,2] <- "American Indian"
+    state_dat_selected[4,2] <- "Asian"
+    state_dat_selected[5,2] <- "Pacific Islander"
+    
+    plot_ly(data=state_dat_selected,labels=~RACE, values=~pop, type="pie") %>% 
+      layout(title = paste("Racial Demographics in", input$state),
+             xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+             yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+    
+    # ggplot(state_dat_selected, aes(x = "", y = percent, fill = RACE)) +
+    #   geom_bar(stat="identity", width = 1) +
+    #   coord_polar("y", start = 0)
   })
 }
