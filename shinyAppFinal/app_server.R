@@ -7,7 +7,30 @@ library(shiny)
 library(usmap)
 
 #Import data
-dat <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)
+dat <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv",
+                stringsAsFactors = FALSE)
+state_dat <- read.csv("https://www2.census.gov/programs-surveys/popest/tables/2010-2019/state/asrh/sc-est2019-alldata5.csv",
+                      stringsAsFactors = FALSE)
+
+# convert state names to state abbreviations
+state_dat <- state_dat %>% 
+  mutate(state = state.abb[match(NAME, state.name)])
+
+# sum of medics by state
+sum_total_mds <- dat %>%
+  group_by(health_sys_state) %>%
+  summarize(sum_total_mds = sum(total_mds, na.rm = T)) %>% 
+  rename(state = health_sys_state)
+
+# population by state
+state_pop_2018 <- state_dat %>% 
+  group_by(state) %>% 
+  summarize(pop = sum(POPESTIMATE2018, na.rm = T))
+
+# join sum_total_mds and state_pop_2018
+# and calculating ratio of medics to population
+mds_and_pop <- left_join(sum_total_mds, state_pop_2018) %>% 
+  mutate(ratio = sum_total_mds/pop)
 
 #server
 server <- function(input, output){
@@ -61,5 +84,11 @@ server <- function(input, output){
            fill = input$resource) +
       blank_theme
     resource_map
+  })
+  
+  output$bar_graph <- renderPlotly({
+    plot <- ggplot(data = mds_and_pop) +
+      geom_bar(x = state, y = ratio) +
+      co0rd_flip()
   })
 }

@@ -76,6 +76,13 @@ page_three <- tabPanel(
 )
 
 # Interactive page- 3
+page_four <- tabPanel(
+  "Racial Demographics",
+  titlePanel("Resources and Racial Demographics in Each State"),
+  mainPanel(
+    
+  )
+)
 
 
 # Summary Takeaways
