@@ -4,6 +4,7 @@
 library(tidyverse)
 library(plotly)
 library(shiny)
+library(usmap)
 
 #Import data
 dat <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv", stringsAsFactors = FALSE)

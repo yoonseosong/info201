@@ -4,6 +4,7 @@
 library(shiny)
 library(tidyverse)
 library(plotly)
+library(usmap)
 
 # intro page
 page_one <- tabPanel(
