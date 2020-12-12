@@ -96,7 +96,7 @@ output$scatter <- renderPlotly ({
     scatterData <- dat %>%
       select(sys_beds, total_mds, sys_dsch, health_sys_state)
     
-    # sum of beds by state
+    # summary variables by state for plot
     scatterData <- scatterData %>%
       group_by(health_sys_state) %>%
       summarize(sum_total_beds = sum(sys_beds),
