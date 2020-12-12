@@ -60,7 +60,7 @@ page_two <- tabPanel(
       selectizeInput("State",
                      "Choose Your States",
                      unique(dat$health_sys_state),
-                     selected = c("WA", "CA", "NY", "MN", "AK"),
+                     selected = c("WA", "CA", "NY", "MN", "AL", "OH"),
                      multiple = TRUE
       )
     ),
