@@ -56,7 +56,7 @@ page_two <- tabPanel(
   "Scatter",
   titlePanel("Compare the Sum of Beds, Physicians, and Discharges by State"),
   sidebarLayout(
-    sidebarpanel(
+    sidebarPanel(
       selectizeInput("State",
                      "Choose Your States",
                      unique(dat$health_sys_state),
