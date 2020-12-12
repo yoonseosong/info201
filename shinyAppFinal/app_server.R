@@ -90,22 +90,19 @@ server <- function(input, output){
     #   coord_polar("y", start = 0)
   })
   
-  output$scatter <- renderPlotly ({
+output$scatter <- renderPlotly ({
+  
+    #select data
+    scatterData <- dat %>%
+      select(sys_beds, total_mds, sys_dsch, health_sys_state)
     
     # sum of beds by state
-    sum_total_beds <- dat %>%
+    scatterData <- scatterData %>%
       group_by(health_sys_state) %>%
-      summarize(sum_total_beds = sum(sys_beds)) %>% 
+      summarize(sum_total_beds = sum(sys_beds),
+                sum_total_mds = sum(total_mds),
+                sum_total_dsch = sum(sys_dsch))
     
-    # sum of medics by state
-    summary_info$sum_total_mds <- dat %>%
-      group_by(health_sys_state) %>%
-      summarize(sum_total_mds = sum(total_mds))
-    
-    # sum of discharges by state
-    sum_total_dsch <- dat %>%
-      group_by(health_sys_state) %>%
-      summarize(sum_total_dsch = sum(sys_dsch)) %>% 
     
     sPlot <- plot_ly(dat, x = ~sum_total_beds, y = ~sum_total_mds, z = ~sum_total_dsch,
                      color =~ health_sys_state) %>% 
