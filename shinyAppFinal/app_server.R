@@ -90,13 +90,12 @@ server <- function(input, output){
     #   coord_polar("y", start = 0)
   })
   
-    output$scatter <- renderPlotly ({
+  output$scatter <- renderPlotly ({
     
     # sum of beds by state
     sum_total_beds <- dat %>%
       group_by(health_sys_state) %>%
       summarize(sum_total_beds = sum(sys_beds)) %>% 
-      rename(state = health_sys_state)
     
     # sum of medics by state
     summary_info$sum_total_mds <- dat %>%
@@ -107,7 +106,6 @@ server <- function(input, output){
     sum_total_dsch <- dat %>%
       group_by(health_sys_state) %>%
       summarize(sum_total_dsch = sum(sys_dsch)) %>% 
-      rename(state = health_sys_state)
     
     sPlot <- plot_ly(dat, x = ~sum_total_beds, y = ~sum_total_mds, z = ~sum_total_dsch,
                      color =~ health_sys_state) %>% 
@@ -118,5 +116,7 @@ server <- function(input, output){
                                             yaxis = list(title = 'Total Physicians'),
                                             zaxis = list(title = 'Total Discharges')))
    
+  })
+}
   })
 }
