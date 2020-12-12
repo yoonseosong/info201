@@ -52,6 +52,22 @@ page_one <- tabPanel(
 
 # Interactive page- 1
 
+page_two <- tabPanel(
+  "Scatter",
+  titlePanel("Compare the Sum of Beds, Physicians, and Discharges by State"),
+  sidebarLayout(
+    sidebarpanel(
+      selectizeInput("State",
+                     "Choose Your States",
+                     unique(dat$health_sys_state),
+                     selected = "WA",
+                     multiple = TRUE
+      )
+    ),
+    mainPanel(plotOutput("scatter"))
+  )
+)
+
 
 # Interactive page- 2
 # resource variable
