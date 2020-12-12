@@ -115,5 +115,3 @@ output$scatter <- renderPlotly ({
    
   })
 }
-  })
-}
