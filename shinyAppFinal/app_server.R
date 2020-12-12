@@ -89,4 +89,34 @@ server <- function(input, output){
     #   geom_bar(stat="identity", width = 1) +
     #   coord_polar("y", start = 0)
   })
+  
+    output$scatter <- renderPlotly ({
+    
+    # sum of beds by state
+    sum_total_beds <- dat %>%
+      group_by(health_sys_state) %>%
+      summarize(sum_total_beds = sum(sys_beds)) %>% 
+      rename(state = health_sys_state)
+    
+    # sum of medics by state
+    summary_info$sum_total_mds <- dat %>%
+      group_by(health_sys_state) %>%
+      summarize(sum_total_mds = sum(total_mds))
+    
+    # sum of discharges by state
+    sum_total_dsch <- dat %>%
+      group_by(health_sys_state) %>%
+      summarize(sum_total_dsch = sum(sys_dsch)) %>% 
+      rename(state = health_sys_state)
+    
+    sPlot <- plot_ly(dat, x = ~sum_total_beds, y = ~sum_total_mds, z = ~sum_total_dsch,
+                     color =~ health_sys_state) %>% 
+      filter(healthy_sys_state %in% input$State) %>% 
+      group_by(health_sys_state) %>% 
+      add_markers()
+    sPlot <- sPlot %>% layout(scene = list( xaxis = list(title = 'Total Beds'),
+                                            yaxis = list(title = 'Total Physicians'),
+                                            zaxis = list(title = 'Total Discharges')))
+   
+  })
 }
