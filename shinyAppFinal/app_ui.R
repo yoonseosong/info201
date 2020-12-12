@@ -60,14 +60,13 @@ page_two <- tabPanel(
       selectizeInput("State",
                      "Choose Your States",
                      unique(dat$health_sys_state),
-                     selected = "WA",
+                     selected = c("WA", "CA", "NY", "MN", "AK"),
                      multiple = TRUE
       )
     ),
-    mainPanel(plotOutput("scatter"))
+    mainPanel(plotlyOutput("scatter"))
   )
 )
-
 
 # Interactive page- 2
 # resource variable
@@ -139,8 +138,9 @@ page_five <- tabPanel(
 # ui server
 ui <- fluidPage(
   navbarPage(
-    "Health Disparities",
+    "Healthcare Resource Disparities",
     page_one,
+    page_two,
     page_three,
     page_four,
     page_five
