@@ -10,10 +10,17 @@ library(usmap)
 dat <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv")
 state_dat <- read.csv("https://www2.census.gov/programs-surveys/popest/tables/2010-2019/state/asrh/sc-est2019-alldata5.csv",
                       stringsAsFactors = FALSE)
+#select data & sum of variables by state
+scatterData <- dat %>%
+  select(sys_beds, total_mds, sys_dsch, health_sys_state) %>%
+  group_by(health_sys_state) %>%
+  summarize(sum_total_beds = sum(sys_beds),
+            sum_total_mds = sum(total_mds),
+            sum_total_dsch = sum(sys_dsch))
 
 #server
 server <- function(input, output){
-  output$map <- renderPlot({
+  output$map <- renderPlotly({
     choice_name <- c("Physicians", "Primary care physicians", "Medical groups", 
                      "Hospitals", "Non-Federal general acute care hospitals", 
                      "Multistate system", "Beds", "Discharges", "Interns and residents")
@@ -62,7 +69,7 @@ server <- function(input, output){
       labs(title = input$resource,
            fill = input$resource) +
       blank_theme
-    resource_map
+    ggplotly(resource_map)
   })
   
   output$pie <- renderPlotly({
@@ -90,19 +97,6 @@ server <- function(input, output){
   })
   
   output$scatter <- renderPlotly ({
-  
-    #select data
-    scatterData <- dat %>%
-      select(sys_beds, total_mds, sys_dsch, health_sys_state)
-    
-    # sum of variables by state
-    scatterData <- scatterData %>%
-      group_by(health_sys_state) %>%
-      summarize(sum_total_beds = sum(sys_beds),
-                sum_total_mds = sum(total_mds),
-                sum_total_dsch = sum(sys_dsch))
-    
-    
     sPlot <- plot_ly(scatterData, x = ~sum_total_beds, y = ~sum_total_mds, z = ~sum_total_dsch,
                      color =~ health_sys_state) %>% 
       filter(health_sys_state %in% input$State) %>% 

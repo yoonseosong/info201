@@ -6,6 +6,8 @@ library(tidyverse)
 library(plotly)
 library(usmap)
 
+source("app_server.R")
+
 # intro page
 page_one <- tabPanel(
   "Introduction",
@@ -54,7 +56,12 @@ page_one <- tabPanel(
 
 page_two <- tabPanel(
   "Scatter",
-  titlePanel("Compare the Sum of Beds, Physicians, and Discharges by State"),
+  includeCSS("style.css"),
+  tags$body(
+    tags$header(
+      tags$h1("Compare the Sum of Beds, Physicians, and Discharges by State")
+    )
+  ),
   sidebarLayout(
     sidebarPanel(
       selectizeInput("State",
@@ -72,7 +79,12 @@ page_two <- tabPanel(
 # resource variable
 page_three <- tabPanel(
   "Map",
-  titlePanel("Number of Resources in Each State"),
+  includeCSS("style.css"),
+  tags$body(
+    tags$header(
+      tags$h1("Number of Resources in Each State")
+    )
+  ),
   sidebarLayout(
     sidebarPanel(
       selectInput(
@@ -85,16 +97,21 @@ page_three <- tabPanel(
       )
     ),
     mainPanel(
-      plotOutput("map")
+      plotlyOutput("map")
     )
   )
 )
 
 # Interactive page- 3
 page_four <- tabPanel(
-  "Racial Demographics",
-  titlePanel("Racial Demographics in Each State"),
+  "Pie",
   mainPanel(
+    includeCSS("style.css"),
+    tags$body(
+      tags$header(
+        tags$h1("Racial Demographics in Each State")
+      )
+    ),
     selectInput(
       inputId = "state",
       label = "Choose a State",
@@ -118,7 +135,7 @@ page_five <- tabPanel(
       tags$img("", src= "healthcare.png", height = 240, width = 800)),
       
       ## Key take away 1
-      tags$h3("Significant Resource Gap")),
+      tags$h3("Significant Resource Gap"),
       
       # Paragraph
       tags$p("vv"),
@@ -127,13 +144,14 @@ page_five <- tabPanel(
       tags$h3("Key Takeaway #2"),
       
       # Paragraph
-      tasg$p("vv"),
+      tags$p("vv"),
       
       ## Key take away 3
       tags$h3("Key takeway #3"),
       
       # Paragraph
       tags$p("vv")
+    )
 )
 
 
