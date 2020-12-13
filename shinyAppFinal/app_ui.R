@@ -134,23 +134,59 @@ page_five <- tabPanel(
       # img
       tags$img("", src= "healthcare.png", height = 240, width = 800)),
       
-      ## Key take away 1
-      tags$h3("Significant Resource Gap"),
+      tags$h3("Trends between racial demographics and resources"),
       
       # Paragraph
-      tags$p("vv"),
+      tags$p("It is clear through the data and our visualization tools that there 
+      is a correlation between health resources and racial demographics. For 
+      instance, when comparing Nevada and Kansas using the scatter plot, two 
+      states that have similar population sizes (NV: 3.08M, KS: 2.91M), Kansas 
+      has significantly more beds, physicians, and discharges than Nevada. When 
+      comparing the demographics of these two states, Nevada has a much larger 
+      proportion of minorities than Kansas (Nevada is 25.6% nonwhite and Kansas 
+      is only 15.4% nonwhite). Additionally, the map reveals that the most beds, 
+      hospitals, and discharges are in Tennessee, which has a much smaller overall 
+      population than California and New York, two states that have a much larger 
+      proportion of minorities.
+"),
+      #images
+      tags$img(src= "splot.png", height = 357, width = 544),
+      tags$img(src= "race.png", height = 256, width = 504.67),
       
       ## Key take away 2
-      tags$h3("Key Takeaway #2"),
+      tags$h3("Correlation of resources to discharges"),
       
       # Paragraph
-      tags$p("vv"),
+      tags$p("Our visuals indicated the clear correlation between the hospital 
+             resources to the total number of discharges by state. The common trend 
+             in each state and shows that a higher level of resource density directly 
+             relates to a higher number of patient discharges. Specifically, the 
+             interactive map visualization showed that. California has the highest 
+             number of physicians and medical groups but Tennessee has the highest 
+             number of hospitals, beds, and discharges. This in connection with our 
+             interactive scatterplot visualization presents the assumption that 
+             discharges are more influenced by hospitals and beds more so than medics. 
+             This was an important component of our data research and accomplished one 
+             of our key questions of what resource is the most crucial to the 
+             effectiveness of healthcare systems."),
+      
+      #images
+      tags$img(src= "map1.png", height = 314, width = 533.5),
+      tags$img(src= "map2.png", height = 314, width = 533.5),
       
       ## Key take away 3
-      tags$h3("Key takeway #3"),
+      tags$h3("Comparing between states"),
       
       # Paragraph
-      tags$p("vv")
+      tags$p("Our visuals were all grouped by state to create a common factor to 
+      compare our other variables. Though separately, our data visuals might not 
+      necessarily indicate key components of our project set, by seeing the common 
+      trends together you can see important data points where similar patterns arise. 
+      In our 3D scatterplot visualization, we evaluated the total physicians and 
+      total beds with total discharges by different states. This visualization 
+      allows us to see the patterns and fluctuations between different states 
+      through different variations on one plot. One trend we saw when comparing 
+      the different states was __.")
     )
 )
 
