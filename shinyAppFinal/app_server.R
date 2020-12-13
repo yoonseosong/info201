@@ -7,8 +7,7 @@ library(shiny)
 library(usmap)
 
 #Import data
-dat <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv",
-                stringsAsFactors = FALSE)
+dat <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv")
 state_dat <- read.csv("https://www2.census.gov/programs-surveys/popest/tables/2010-2019/state/asrh/sc-est2019-alldata5.csv",
                       stringsAsFactors = FALSE)
 
