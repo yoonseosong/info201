@@ -20,6 +20,7 @@ scatterData <- dat %>%
 
 #server
 server <- function(input, output){
+  
   output$map <- renderPlotly({
     choice_name <- c("Physicians", "Primary care physicians", "Medical groups", 
                      "Hospitals", "Non-Federal general acute care hospitals", 
@@ -90,10 +91,16 @@ server <- function(input, output){
       layout(title = paste("Racial Demographics in", input$state),
              xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
              yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+  })
+  
+  output$pop <- renderText({
     
-    # ggplot(state_dat_selected, aes(x = "", y = percent, fill = RACE)) +
-    #   geom_bar(stat="identity", width = 1) +
-    #   coord_polar("y", start = 0)
+    state_dat_selected <- state_dat %>% 
+      group_by(NAME) %>% 
+      summarize(pop = sum(POPESTIMATE2018, na.rm = T)) %>% 
+      filter(NAME == input$state)
+    
+    paste("Total population:", format(state_dat_selected$pop,big.mark = ",", scientific = F))
   })
   
   output$scatter <- renderPlotly ({

@@ -107,19 +107,24 @@ page_three <- tabPanel(
 # Interactive page- 3
 page_four <- tabPanel(
   "Pie",
-  mainPanel(
-    includeCSS("style.css"),
-    tags$body(
-      tags$header(
-        tags$h1("Racial Demographics in Each State")
-      )
+  includeCSS("style.css"),
+  tags$body(
+    tags$header(
+      tags$h1("Racial Demographics in Each State")
+    )
+  ),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        inputId = "state",
+        label = "Choose a State",
+        choices = state.name
+      ),
+      p(textOutput("pop"))
     ),
-    selectInput(
-      inputId = "state",
-      label = "Choose a State",
-      choices = state.name
-    ),
-    plotlyOutput("pie")
+    mainPanel(
+      plotlyOutput("pie")
+    )
   )
 )
 
@@ -142,7 +147,7 @@ page_five <- tabPanel(
       tags$p("It is clear through the data and our visualization tools that there 
       is a correlation between health resources and racial demographics. For 
       instance, when comparing Nevada and Kansas using the scatter plot, two 
-      states that have similar population sizes (NV: 3.08M, KS: 2.91M), Kansas 
+      states that have similar population sizes (NV: 12.72M, KS: 12.02M), Kansas 
       has significantly more beds, physicians, and discharges than Nevada. When 
       comparing the demographics of these two states, Nevada has a much larger 
       proportion of minorities than Kansas (Nevada is 25.6% nonwhite and Kansas 
