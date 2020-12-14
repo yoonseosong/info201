@@ -186,7 +186,15 @@ page_five <- tabPanel(
       total beds with total discharges by different states. This visualization 
       allows us to see the patterns and fluctuations between different states 
       through different variations on one plot. One trend we saw when comparing 
-      the different states was __.")
+      the different states in that visual was that overall, with less physicians (and less bed space)
+      there was a significantly less amount of discharges. Using the scatter plot there was a relatively
+      strong correlation accross these three variables. Additionally, we can note that thes states
+      with less physicians and beds also have lesser amounts of other healthcare resources
+      (in reference to the map) with less assortments available. A possible factor that could
+      influence the accessibility of healthcare could be population density, such as the most populous
+      state of California having the highest number in the three scatterplot fields.")
+      #image
+      p(img("", src= "plotpic.jpg", height = 315, width = 600))
     )
 )
 
