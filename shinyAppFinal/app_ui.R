@@ -5,6 +5,8 @@ library(shiny)
 library(tidyverse)
 library(plotly)
 library(usmap)
+library(maps)
+library(mapproj)
 
 source("app_server.R")
 
@@ -202,7 +204,7 @@ page_five <- tabPanel(
       state of California having the highest number in the three scatterplot fields."),
      
        #image
-      p(img("", src= "plotpic.jpg", height = 315, width = 600))
+      tags$img(src= "plotpic.JPG", height = 315, width = 600)
     )
 )
 

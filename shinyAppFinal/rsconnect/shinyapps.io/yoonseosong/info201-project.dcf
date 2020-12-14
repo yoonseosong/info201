@@ -1,0 +1,12 @@
+name: info201-project
+title: info201-project
+username:
+account: yoonseosong
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3397357
+bundleId: 3985400
+url: https://yoonseosong.shinyapps.io/info201-project/
+when: 1607919933.0385
+asMultiple: FALSE
+asStatic: FALSE

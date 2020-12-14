@@ -5,6 +5,8 @@ library(tidyverse)
 library(plotly)
 library(shiny)
 library(usmap)
+library(maps)
+library(mapproj)
 
 #Import data
 dat <- read.csv("https://www.ahrq.gov/sites/default/files/wysiwyg/chsp/compendium/chsp-compendium-2018.csv")
@@ -61,7 +63,8 @@ server <- function(input, output){
     # Draw the map using a map-based coordinate system
     resource_map <- ggplot(state_shape) +
       geom_polygon(
-        mapping = aes(x = long, y = lat, group = group, fill = .data[[chosen_resource]]), 
+        mapping = aes(x = long, y = lat, group = group, fill = .data[[chosen_resource]],
+                      text = sprintf("state: %s", health_sys_state)), 
         color = "black",
         size = 0.1
       ) +
