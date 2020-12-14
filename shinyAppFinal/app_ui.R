@@ -42,6 +42,8 @@ page_one <- tabPanel(
       
       tags$img(src= "covid.jpg", height = 333.33, width = 575),
       
+      tags$p(" "),
+      
       tags$p("Looking towards the future we're interested in seeing how the results of 
       this data research project might change as new data on the effects of COVID-19
       in the healthcare system. It is important to note the changing circumstances
@@ -171,8 +173,8 @@ page_five <- tabPanel(
              effectiveness of healthcare systems."),
       
       #images
-      tags$img(src= "map1.png", height = 314, width = 533.5),
-      tags$img(src= "map2.png", height = 314, width = 533.5),
+      tags$img(src= "map1.png", height = 314, width = 430),
+      tags$img(src= "map2.png", height = 314, width = 440),
       
       ## Key take away 3
       tags$h3("Comparing between states"),
@@ -192,8 +194,9 @@ page_five <- tabPanel(
       with less physicians and beds also have lesser amounts of other healthcare resources
       (in reference to the map) with less assortments available. A possible factor that could
       influence the accessibility of healthcare could be population density, such as the most populous
-      state of California having the highest number in the three scatterplot fields.")
-      #image
+      state of California having the highest number in the three scatterplot fields."),
+     
+       #image
       p(img("", src= "plotpic.jpg", height = 315, width = 600))
     )
 )
