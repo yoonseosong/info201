@@ -72,7 +72,7 @@ page_two <- tabPanel(
     sidebarPanel(
       selectizeInput("State",
         "Choose Your States",
-        unique(scatterData$health_sys_state),
+        unique(scatter_data$health_sys_state),
         selected = c("WA", "CA", "NY", "MN", "AL", "OH"),
         multiple = TRUE
       )
